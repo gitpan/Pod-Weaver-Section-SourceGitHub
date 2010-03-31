@@ -1,4 +1,7 @@
 Revision history for Pod::Weaver::Section::SourceGitHub
 
+0.52  2010-03-30
+    - use Dist::Zilla's distmeta accessor (requires Dist::Zilla 1.092680)
+
 0.51  2010-03-30
     - initial release

@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.61.
+signed via the Module::Signature module, version 0.55.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,14 +14,14 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 0e434669676b6db8f8ccb8071a2d6ae590da84fd Changes
+SHA1 030817316109a578aaaae684d0a35b74e3219926 Changes
 SHA1 2567ebef08c659e7f40bee2fbd29f69f00c6c863 LICENSE
 SHA1 361b42f90eac8027ef657dd8d15e160f4e43fb82 MANIFEST
-SHA1 ec25392db37054f5ad98baf313cf16938d58609e META.yml
-SHA1 ff5d6e9bd3a8f8cd8a95cef927c8d4adb366205a Makefile.PL
-SHA1 d18380bb0f872bd22fc4a34c309fd67c411a4503 README
-SHA1 d91d2fe01778dc3f187304a1db0d3a8730d0b776 dist.ini
-SHA1 d65a04e96ae98f9a23666460630620994df879f7 lib/Pod/Weaver/Section/SourceGitHub.pm
+SHA1 d6d6f24c68bf59e11e7ac168a00d0bb2cab700b2 META.yml
+SHA1 f9ce77219779e83c0996b8f77022b267946c58f0 Makefile.PL
+SHA1 074ac358926a96b910e56eca9b991242ae3543f5 README
+SHA1 37e56035a16491bc6bf62795343413bce38dbcfc dist.ini
+SHA1 b25475e7155c4498442ff2096b735d5309c7063d lib/Pod/Weaver/Section/SourceGitHub.pm
 SHA1 b75fb765351465e34c836e8608be1c3c6525d1cf t/compile.t
 SHA1 5da741e4cabd859cbd6a3f2ad1c9901b892da4d0 t/release-pod-coverage.t
 SHA1 946206d2ce9fba0e8fda1d429e01245fb8934622 t/release-pod-syntax.t
@@ -30,7 +30,7 @@ SHA1 b683e5354a6b991da17a94e51852513b95acb60b weaver.ini
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.9 (GNU/Linux)
 
-iEYEARECAAYFAkuyHOwACgkQ+CqvSzp9LOxuDgCcDSS6b18ruWIS3HiRLUUdgSff
-YUMAoMaHmlP0ZiXF82VW34K04mCSuw7p
-=kmPq
+iEYEARECAAYFAkuy0uEACgkQ+CqvSzp9LOxlHwCfdDke6ptgheNmGYfwl3wU7Gxy
+rKsAn0cdOtCMISirKsCQcIfnB3sy/rLl
+=erCi
 -----END PGP SIGNATURE-----

@@ -4,7 +4,7 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.11;
+use ExtUtils::MakeMaker 6.31;
 
 
 
@@ -15,18 +15,20 @@ my %WriteMakefileArgs = (
                        'NAME' => 'Pod::Weaver::Section::SourceGitHub',
                        'DISTNAME' => 'Pod-Weaver-Section-SourceGitHub',
                        'CONFIGURE_REQUIRES' => {
-                                                 'ExtUtils::MakeMaker' => '6.11'
+                                                 'ExtUtils::MakeMaker' => '6.31'
                                                },
                        'AUTHOR' => 'Michael Schout <mschout@cpan.org>',
-                       'BUILD_REQUIRES' => {},
+                       'BUILD_REQUIRES' => {
+                                             'Module::Signature' => '0',
+                                             'Test::More' => '0',
+                                             'Socket' => '0'
+                                           },
                        'ABSTRACT' => 'Add SOURCE pod section for a github repository',
                        'EXE_FILES' => [],
-                       'VERSION' => '0.51',
+                       'VERSION' => '0.52',
                        'PREREQ_PM' => {
-                                        'Module::Signature' => '0',
-                                        'Test::More' => '0',
+                                        'Dist::Zilla' => '1.092680',
                                         'Pod::Weaver::Role::Section' => '0',
-                                        'Socket' => '0',
                                         'Moose::Autobox' => '0',
                                         'Moose' => '0'
                                       },
@@ -34,8 +36,11 @@ my %WriteMakefileArgs = (
                      );
 
 
-delete $WriteMakefileArgs{LICENSE}
-  unless eval { ExtUtils::MakeMaker->VERSION(6.31) };
+delete $WriteMakefileArgs{BUILD_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.56) };
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
 WriteMakefile(%WriteMakefileArgs);
 
