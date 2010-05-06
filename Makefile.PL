@@ -9,35 +9,45 @@ use ExtUtils::MakeMaker 6.31;
 
 
 my %WriteMakefileArgs = (
-                       'test' => {
-                                   'TESTS' => 't/*.t'
-                                 },
-                       'NAME' => 'Pod::Weaver::Section::SourceGitHub',
-                       'DISTNAME' => 'Pod-Weaver-Section-SourceGitHub',
-                       'CONFIGURE_REQUIRES' => {
-                                                 'ExtUtils::MakeMaker' => '6.31'
-                                               },
-                       'AUTHOR' => 'Michael Schout <mschout@cpan.org>',
-                       'BUILD_REQUIRES' => {
-                                             'Module::Signature' => '0',
-                                             'Test::More' => '0',
-                                             'Socket' => '0'
-                                           },
-                       'ABSTRACT' => 'Add SOURCE pod section for a github repository',
-                       'EXE_FILES' => [],
-                       'VERSION' => '0.52',
-                       'PREREQ_PM' => {
-                                        'Dist::Zilla' => '1.092680',
-                                        'Pod::Weaver::Role::Section' => '0',
-                                        'Moose::Autobox' => '0',
-                                        'Moose' => '0'
-                                      },
-                       'LICENSE' => 'perl'
-                     );
+  'ABSTRACT' => 'Add SOURCE pod section for a github repository',
+  'AUTHOR' => 'Michael Schout <mschout@cpan.org>',
+  'BUILD_REQUIRES' => {
+    'Module::Signature' => '0',
+    'Socket' => '0',
+    'Test::More' => '0'
+  },
+  'CONFIGURE_REQUIRES' => {
+    'ExtUtils::MakeMaker' => '6.31'
+  },
+  'DISTNAME' => 'Pod-Weaver-Section-SourceGitHub',
+  'EXE_FILES' => [],
+  'LICENSE' => 'perl',
+  'NAME' => 'Pod::Weaver::Section::SourceGitHub',
+  'PREREQ_PM' => {
+    'Dist::Zilla' => '1.092680',
+    'Moose' => '0',
+    'Moose::Autobox' => '0',
+    'Pod::Weaver::Role::Section' => '0'
+  },
+  'VERSION' => '0.53',
+  'test' => {
+    'TESTS' => 't/*.t'
+  }
+);
 
 
-delete $WriteMakefileArgs{BUILD_REQUIRES}
-  unless eval { ExtUtils::MakeMaker->VERSION(6.56) };
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM}; 
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod}; 
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
 
 delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
   unless eval { ExtUtils::MakeMaker->VERSION(6.52) };

@@ -1,5 +1,7 @@
 package Pod::Weaver::Section::SourceGitHub;
-$Pod::Weaver::Section::SourceGitHub::VERSION = '0.52';
+BEGIN {
+  $Pod::Weaver::Section::SourceGitHub::VERSION = '0.53';
+}
 
 # ABSTRACT: Add SOURCE pod section for a github repository
 
@@ -19,8 +21,7 @@ sub weave_section {
         or die "no distmeta data present";
 
     # pull repo out of distmeta resources.
-    my $repo = $meta->{resources}{repository}
-        or die "repository not present in distmeta";
+    my $repo = $meta->{resources}{repository} or return;
 
     return unless $repo =~ /github\.com/;
 
@@ -69,7 +70,7 @@ Pod::Weaver::Section::SourceGitHub - Add SOURCE pod section for a github reposit
 
 =head1 VERSION
 
-version 0.52
+version 0.53
 
 =head1 SYNOPSIS
 
