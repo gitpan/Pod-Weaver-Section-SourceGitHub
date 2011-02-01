@@ -1,6 +1,6 @@
 package Pod::Weaver::Section::SourceGitHub;
 BEGIN {
-  $Pod::Weaver::Section::SourceGitHub::VERSION = '0.53';
+  $Pod::Weaver::Section::SourceGitHub::VERSION = '0.54';
 }
 
 # ABSTRACT: Add SOURCE pod section for a github repository
@@ -11,40 +11,46 @@ with 'Pod::Weaver::Role::Section';
 
 use Moose::Autobox;
 
+has zilla => (
+    is  => 'rw',
+    isa => 'Dist::Zilla');
+
+has repo_data => (
+    is         => 'ro',
+    lazy_build => 1);
+
+has repo_git => (
+    is         => 'ro',
+    lazy_build => 1);
+
+has repo_web => (
+    is         => 'ro',
+    lazy_build => 1);
+
 
 sub weave_section {
     my ($self, $document, $input) = @_;
 
     my $zilla = $input->{zilla} or return;
+    $self->zilla($zilla);
 
     my $meta = eval { $zilla->distmeta }
         or die "no distmeta data present";
 
     # pull repo out of distmeta resources.
-    my $repo = $meta->{resources}{repository} or return;
+    my $repo = $meta->{resources}{repository}{url} or return;
 
     return unless $repo =~ /github\.com/;
 
     my $clonerepo = $repo;
 
     # fix up clone repo url
-    if ($clonerepo =~ m#^http://#) {
-        $clonerepo =~ s#^http://#git://#;
-    }
-    if ($clonerepo !~ /\.git$/) {
-        $clonerepo .= '.git';
-    }
+    my $repo_web = $self->repo_web;
+    my $repo_git = $self->repo_git;
 
     my $text =
-        "You can contribute or fork this project via github:\n".
-        "\n".
-        "$repo\n";
-
-    # if repo differs from the clone repo, add clone command.
-    if ($clonerepo ne $repo) {
-        $text .= "\n".
-                 " git clone $clonerepo";
-    }
+        "The development version is on github at L<".$self->repo_web.">\n".
+        "and may be cloned from L<".$self->repo_git.">\n";
 
     $document->children->push(
         Pod::Elemental::Element::Nested->new({
@@ -55,6 +61,34 @@ sub weave_section {
             ],
         }),
     );
+}
+
+sub _build_repo_data {
+    my $self = shift;
+
+    my $url = $self->zilla->distmeta->{resources}{repository}{url}
+        or die "No repository URL found in distmeta";
+
+    if ($url =~ /github\.com/i) {
+        $url =~ s{^(?:http|git):/*}{}i;
+        $url =~ s{^git\@github.com:/*}{github.com/}i;
+        $url =~ s/\.git$//i;
+
+        my $repo_web = "http://$url";
+        my $repo_git = "git://$url.git";
+
+        return [ $repo_git, $repo_web ];
+    }
+
+    return [];
+}
+
+sub _build_repo_git {
+    shift->repo_data->[0];
+}
+
+sub _build_repo_web {
+    shift->repo_data->[1];
 }
 
 no Moose;
@@ -70,7 +104,7 @@ Pod::Weaver::Section::SourceGitHub - Add SOURCE pod section for a github reposit
 
 =head1 VERSION
 
-version 0.53
+version 0.54
 
 =head1 SYNOPSIS
 
@@ -89,29 +123,26 @@ your module, as well as instructions on how to clone the repository.
 
 adds the C<SOURCE> section.
 
+=head1 SOURCE
+
+The development version is on github at L<http://github.com/mschout/pod-weaver-section-sourcegithub>
+and may be cloned from L<git://github.com/mschout/pod-weaver-section-sourcegithub.git>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to bug-pod-weaver-section-sourcegithub@rt.cpan.org or through the web interface at:
+ http://rt.cpan.org/Public/Dist/Display.html?Name=Pod-Weaver-Section-SourceGitHub
+
 =head1 AUTHOR
 
   Michael Schout <mschout@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Michael Schout.
+This software is copyright (c) 2011 by Michael Schout.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
-=head1 SOURCE
-
-You can contribute or fork this project via github:
-
-http://github.com/mschout/pod-weaver-section-sourcegithub
-
- git clone git://github.com/mschout/pod-weaver-section-sourcegithub.git
-
-=head1 BUGS
-
-Please report any bugs or feature requests to bug-pod-weaver-section-sourcegithub@rt.cpan.org or through the web interface at:
- http://rt.cpan.org/Public/Dist/Display.html?Name=Pod-Weaver-Section-SourceGitHub
 
 =cut
 

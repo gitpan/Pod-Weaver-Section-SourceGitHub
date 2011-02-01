@@ -24,12 +24,12 @@ my %WriteMakefileArgs = (
   'LICENSE' => 'perl',
   'NAME' => 'Pod::Weaver::Section::SourceGitHub',
   'PREREQ_PM' => {
-    'Dist::Zilla' => '1.092680',
+    'Dist::Zilla' => '4.101800',
     'Moose' => '0',
     'Moose::Autobox' => '0',
     'Pod::Weaver::Role::Section' => '0'
   },
-  'VERSION' => '0.53',
+  'VERSION' => '0.54',
   'test' => {
     'TESTS' => 't/*.t'
   }
@@ -38,10 +38,10 @@ my %WriteMakefileArgs = (
 
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
   my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
-  my $pp = $WriteMakefileArgs{PREREQ_PM}; 
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
   for my $mod ( keys %$br ) {
     if ( exists $pp->{$mod} ) {
-      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod}; 
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
     }
     else {
       $pp->{$mod} = $br->{$mod};
